@@ -6,7 +6,7 @@ import { ContextProvider } from "./context/Context.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/elcinema/">
       <ContextProvider>
         <App />
       </ContextProvider>
