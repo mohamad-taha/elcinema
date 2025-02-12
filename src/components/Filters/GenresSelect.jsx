@@ -25,7 +25,7 @@ const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
           const data = await response.json();
           setGenre(data.genres);
         } catch (error) {
-          console.log(error);
+          setGenre([error]);
         }
       }
     };
@@ -38,7 +38,7 @@ const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
       <Select
         labelId="genreFilterLabel"
         name="filter genre"
-        value={filter.genre ?? ""}
+        value={filter?.genre ?? ""}
         label="Genres"
         onChange={(e) =>
           setFilter((prev) => ({
