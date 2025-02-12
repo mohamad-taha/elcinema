@@ -1,0 +1,101 @@
+.cardsContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.card {
+  width: 190px;
+  height: 270px;
+  transition: all 0.4s;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.705);
+  position: relative;
+}
+
+.card:hover {
+  border-radius: 15px;
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.first-content {
+  height: 100%;
+  width: 100%;
+  transition: all 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  border-radius: 15px;
+}
+
+.second-content {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.4s;
+  border-radius: 8px;
+  font-size: 10px;
+
+  span {
+    position: absolute;
+    background-color: #212121;
+    border-radius: 2px;
+    padding: 5px 6px;
+  }
+}
+
+.card:hover .second-content {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.36);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card .rate {
+  top: 10px;
+  right: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.releaseDate {
+  left: 5px;
+  top: 10px;
+}
+.itemTitle {
+  font-weight: 500;
+  text-align: center;
+  bottom: 0;
+  right: 50%;
+  transform: translateX(50%);
+  width: 100%;
+  font-size: 14px;
+  letter-spacing: 1px;
+  border-radius: 8px !important;
+  background-color: #000000aa !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+@media (max-width: 639px) {
+  .cardsContainer {
+    justify-content: space-between;
+    gap: 20px;
+
+    .card {
+      width: 45%;
+      height: 190px;
+    }
+  }
+}

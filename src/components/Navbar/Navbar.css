@@ -1,0 +1,54 @@
+.nav {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  padding: 0 50px;
+  top: 0;
+  transition: 200ms;
+  z-index: 100;
+
+  .navLinksContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .menuBtn {
+    display: none;
+  }
+}
+
+.navScrolled {
+  background-color: #363636;
+  transition: 200ms;
+  height: 60px;
+}
+
+@media (max-width: 1023px) {
+  .nav {
+    padding: 0 20px;
+
+    > .navLinksContainer,
+    button:first-of-type {
+      display: none;
+    }
+
+    .menuBtn {
+      display: flex;
+    }
+  }
+}

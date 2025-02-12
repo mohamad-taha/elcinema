@@ -1,0 +1,51 @@
+.navLinksContainer {
+  a {
+    text-decoration: none;
+    transition: 200ms;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    path {
+      transition: 200ms;
+    }
+
+    &:hover,
+    &:hover path {
+      fill: var(--hover-color);
+      color: var(--hover-color);
+    }
+  }
+
+  button {
+    position: relative;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .dropDown {
+      pointer-events: none;
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: 200ms;
+      border-radius: 5px;
+      padding: 20px 10px;
+      background-color: #212121;
+      width: 100%;
+      top: 20px;
+      gap: 15px;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      align-items: flex-start;
+      z-index: 3;
+    }
+
+    .showDropDown {
+      transform: translateY(0px);
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}

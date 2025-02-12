@@ -1,0 +1,84 @@
+@font-face {
+  font-family: myRubik;
+  src: url(./assets/fonts/Rubik-Regular.ttf);
+  font-display: swap;
+}
+
+::-webkit-scrollbar {
+  background-color: #363636;
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+  font-family: myRubik;
+}
+
+:root {
+  --primary-color: #f3951e;
+  --hover-color: #d2831c;
+}
+
+body {
+  background-color: #1e1e21;
+}
+
+.container {
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.mt {
+  margin-top: 100px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.primaryBtn {
+  transition: 200ms;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+}
+
+.linksBtn {
+  background-color: transparent;
+  border: none;
+  transition: 200ms;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  path {
+    transition: 200ms;
+  }
+
+  &:hover > svg > path,
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+@media (max-width: 1023px) {
+  .container {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+}

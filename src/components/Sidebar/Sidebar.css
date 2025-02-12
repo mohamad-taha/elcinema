@@ -1,0 +1,43 @@
+.sidebar {
+  transition: 200ms;
+  background-color: #212121;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  padding: 50px;
+  z-index: 999;
+
+  button {
+    background-color: transparent;
+    border: none;
+    transition: 200ms;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    path {
+      transition: 200ms;
+    }
+
+    &:hover > svg > path,
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+}
+
+.overlay {
+  z-index: 899;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.278);
+  top: 0;
+}
+
+.sidebar .navLinksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 20px;
+}
