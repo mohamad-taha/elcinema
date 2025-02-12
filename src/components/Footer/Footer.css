@@ -49,6 +49,8 @@ footer {
     display: flex;
     text-align: center;
     gap: 10px;
+    padding: 10px 0;
+    height: max-content;
     flex-direction: column;
   }
 }
