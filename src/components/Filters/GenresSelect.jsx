@@ -36,6 +36,7 @@ const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
     <FormControl sx={{ width: "150px" }}>
       <InputLabel>Genres</InputLabel>
       <Select
+        aria-label="filter by genre"
         name="filter genre"
         value={filter.genre ?? ""}
         label="Genres"

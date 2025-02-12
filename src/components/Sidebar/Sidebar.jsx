@@ -22,6 +22,7 @@ const Sidebar = () => {
   return (
     <div>
       <div
+        role="button"
         onClick={() => setShowSidebar(false)}
         style={{ display: showSidebar ? "block" : "none" }}
         className="overlay"

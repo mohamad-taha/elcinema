@@ -6,6 +6,7 @@ footer {
   gap: 10px;
   border-top: 1px solid var(--primary-color);
   height: 70px;
+  margin-top: 200px !important;
 
   div {
     display: flex;

@@ -14,6 +14,7 @@ const Card = ({ loading, items, err, type }) => {
       {!loading &&
         items?.map((item) => (
           <div
+            role="button"
             key={item?.id}
             className="card"
             onClick={() =>

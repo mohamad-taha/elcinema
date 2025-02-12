@@ -20,6 +20,7 @@ const SearchFilters = () => {
       <FormControl sx={{ width: "150px" }}>
         <InputLabel>Type</InputLabel>
         <Select
+          aria-label="filter by type"
           name="filter type"
           value={filter.type}
           onChange={(e) => {
@@ -39,6 +40,7 @@ const SearchFilters = () => {
       <FormControl sx={{ width: "150px" }}>
         <InputLabel>Rate</InputLabel>
         <Select
+          aria-label="filter by rate"
           name="filter rate"
           value={filter.rate}
           onChange={(e) => {

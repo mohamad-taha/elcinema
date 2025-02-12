@@ -108,6 +108,7 @@ const Filters = ({ filter, setFilter }) => {
       <FormControl sx={{ width: "150px" }}>
         <InputLabel>language</InputLabel>
         <Select
+          aria-label="filter by lang"
           name="filter lang"
           value={filter.lang}
           label="Language"
@@ -130,6 +131,7 @@ const Filters = ({ filter, setFilter }) => {
       <FormControl sx={{ width: "150px" }}>
         <InputLabel>Rate</InputLabel>
         <Select
+          aria-label="filter by rate"
           name="filter rate"
           value={filter.rate}
           label="Rate"
@@ -155,7 +157,8 @@ const Filters = ({ filter, setFilter }) => {
       <FormControl sx={{ width: "150px" }}>
         <InputLabel>Company</InputLabel>
         <Select
-          name="filter company"
+          aria-label="filter comapny"
+          name="filter by company"
           value={filter.company}
           label="Company"
           onChange={(e) => {
@@ -177,6 +180,7 @@ const Filters = ({ filter, setFilter }) => {
       <FormControl sx={{ width: "150px" }}>
         <InputLabel>Sort By</InputLabel>
         <Select
+          aria-label="filter by sort"
           name="filter sort"
           value={filter.sort}
           label="Sort By"

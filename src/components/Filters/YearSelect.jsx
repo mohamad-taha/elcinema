@@ -9,6 +9,7 @@ const YearSelect = ({ filter, setFilter }) => {
     <FormControl sx={{ width: "150px" }}>
       <InputLabel>Release Date</InputLabel>
       <Select
+        aria-label="filter by date"
         name="filter date"
         value={filter.date ?? ""}
         label="Release Date"

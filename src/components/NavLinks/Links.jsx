@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaFireAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
@@ -7,11 +7,9 @@ import { BiCameraMovie } from "react-icons/bi";
 import { TbAlignBoxCenterTop } from "react-icons/tb";
 import { BiTv } from "react-icons/bi";
 import { MdOutlineUpcoming } from "react-icons/md";
-import { Context } from "../../context/Context";
 import "./Links.css";
 
 const Links = () => {
-  const { setSowSidebar } = useContext(Context);
   const [activeDropDown, setActiveDropDown] = useState(null);
 
   const handleMouseOver = (id) => {
