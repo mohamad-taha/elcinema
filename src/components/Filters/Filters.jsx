@@ -106,9 +106,9 @@ const Filters = ({ filter, setFilter }) => {
       <YearSelect filter={filter} setFilter={setFilter} />
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel>language</InputLabel>
+        <InputLabel id="langFilterLabel">language</InputLabel>
         <Select
-          aria-label="filter by lang"
+          labelId="langFilterLabel"
           name="filter lang"
           value={filter.lang}
           label="Language"
@@ -129,9 +129,9 @@ const Filters = ({ filter, setFilter }) => {
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel>Rate</InputLabel>
+        <InputLabel id="rateFilterLabel">Rate</InputLabel>
         <Select
-          aria-label="filter by rate"
+          labelId="rateFilterLabel"
           name="filter rate"
           value={filter.rate}
           label="Rate"
@@ -155,9 +155,9 @@ const Filters = ({ filter, setFilter }) => {
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel>Company</InputLabel>
+        <InputLabel id="companyFilterLabel">Company</InputLabel>
         <Select
-          aria-label="filter comapny"
+          labelId="companyFilterLabel"
           name="filter by company"
           value={filter.company}
           label="Company"
@@ -178,9 +178,9 @@ const Filters = ({ filter, setFilter }) => {
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel>Sort By</InputLabel>
+        <InputLabel id="sortFilterLabel">Sort By</InputLabel>
         <Select
-          aria-label="filter by sort"
+          labelId="sortFilterLabel"
           name="filter sort"
           value={filter.sort}
           label="Sort By"

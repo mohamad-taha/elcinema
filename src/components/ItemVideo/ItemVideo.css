@@ -1,11 +1,12 @@
 .trailerContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
 
   h1 {
-    font-size: 45px;
-    width: 45%;
+    font-size: 38px;
   }
 
   span {
@@ -21,7 +22,6 @@
 
 @media (max-width: 639px) {
   .trailerContainer {
-    flex-direction: column;
     gap: 30px;
 
     h1,

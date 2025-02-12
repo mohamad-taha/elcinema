@@ -28,7 +28,7 @@ const Card = ({ loading, items, err, type }) => {
             <div className="first-content">
               {item && item?.backdrop_path ? (
                 <img
-                  alt={item?.title}
+                  alt={item?.title || item?.name}
                   src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                 />
               ) : (

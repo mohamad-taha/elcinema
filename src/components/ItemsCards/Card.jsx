@@ -50,13 +50,14 @@ const Card = ({ filter, setFilter }) => {
         const response = await fetch(baseUrl, options);
         const data = await response.json();
 
-        setFilter((prev) => ({ ...prev, items: data.results }));
-        setTotalPages(data.total_pages);
+        setFilter((prev) => ({ ...prev, items: data?.results }));
+        setTotalPages(data?.total_pages);
         navigate(`/category/${name}?page=${itemsPagination}`);
+
         if (!response.ok) {
           setErr(() => ({ stat: true, msg: response.statusText }));
         }
-      } catch (error) {
+      } catch {
         setErr(() => ({
           stat: true,
           msg: "No internet connection or an unknown error occurred!",

@@ -4,7 +4,7 @@ import "./ItemVideo.css";
 import Loading from "../Loading/Loading";
 
 const ItemVideo = () => {
-  const { id, type } = useParams();
+  const { id, type, name } = useParams();
   const [trailerId, setTrailerId] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState({ stat: false, msg: "" });
@@ -57,11 +57,10 @@ const ItemVideo = () => {
       {trailerId && !loading && (
         <div className="trailerContainer">
           <h1>
-            Get <span>ready</span> for the <span>thrill!</span> Watch the{" "}
-            <span>trailer</span> now and enjoy an <span>unforgettable</span>{" "}
-            experience.
+            {name} <span>trailer</span>
           </h1>
           <iframe
+            title={name + "trailer"}
             id="trailerFrame"
             src={`https://www.youtube.com/embed/${trailerId}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
