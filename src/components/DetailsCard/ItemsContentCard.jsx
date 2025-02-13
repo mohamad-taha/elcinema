@@ -1,16 +1,25 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const ItemsContentCard = ({ cardDetails }) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <h1>{cardDetails?.title || cardDetails?.name}</h1>
       {cardDetails.number_of_episodes && (
         <p className="itemEpoisdes">
-          <small>Seasons: {cardDetails.number_of_seasons}</small>
-          <small>Eposides: {cardDetails.number_of_episodes}</small>
+          <small>
+            {t("seasons")} {cardDetails.number_of_seasons}
+          </small>
+          <small>
+            {t("eposides")} {cardDetails.number_of_episodes}
+          </small>
         </p>
       )}
-      <small>Status: {cardDetails?.status}</small>
+      <small>
+        {t("status")} {cardDetails?.status}
+      </small>
       <p className="itemOverview">
         <span className="cardSectionHead">
           <svg
@@ -27,7 +36,7 @@ const ItemsContentCard = ({ cardDetails }) => {
               className="fill-000000"
             ></path>
           </svg>
-          Overview
+          {t("overview")}
         </span>
         {cardDetails.overview}
       </p>

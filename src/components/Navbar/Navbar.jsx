@@ -4,7 +4,7 @@ import logo from "../../assets/imgs/logo.svg";
 import Links from "../NavLinks/Links";
 import { TbListTree } from "react-icons/tb";
 import { Context } from "../../context/Context";
-import Btn from "../AccountBtn/Btn";
+import Btn from "../LanguageBtn/Btn";
 import "./Navbar.css";
 
 const Navbar = () => {

@@ -58,8 +58,8 @@ const Card = ({ loading, items, err, type }) => {
       ) : (
         ""
       )}
-      {err?.stat ?? (
-        <span style={{ textAlign: "center", width: "100%" }}>{err?.msg}</span>
+      {err?.stat && (
+        <span style={{ textAlign: "center", width: "100%" }}>{err.msg}</span>
       )}
     </div>
   );

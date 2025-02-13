@@ -4,8 +4,10 @@ import Cards from "../Cards/Card";
 import Pagination from "../Pagination/ItemsPagination";
 import GenreSelect from "../Filters/GenresSelect";
 import YearSelect from "../Filters/YearSelect";
+import { useTranslation } from "react-i18next";
 
 const TopRatedCards = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { type } = useParams();
   const [items, setItems] = useState([]);
@@ -54,7 +56,7 @@ const TopRatedCards = () => {
         const resp = await fetch(
           `https://api.themoviedb.org/3/${
             type === "tv" ? "tv" : "movie"
-          }/top_rated?language=en-US&page=${itemsPagination}`,
+          }/top_rated?language=${i18n.language}&page=${itemsPagination}`,
           options
         );
         const data = await resp.json();
@@ -70,14 +72,14 @@ const TopRatedCards = () => {
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
       } finally {
         setLoading(false);
       }
     };
     getData();
-  }, [itemsPagination, type, filter.genre, filter.date]);
+  }, [itemsPagination, type, filter.genre, filter.date, i18n.language]);
   return (
     <div className="mt">
       <div className="selectsContainer">

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PaginationCards from "../Pagination/ItemsPagination";
 import Cards from "../Cards/Card";
+import { useTranslation } from "react-i18next";
 
 const UpComingCards = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const { type } = useParams();
@@ -19,9 +21,9 @@ const UpComingCards = () => {
       "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c";
     const API_URL = `https://api.themoviedb.org/3/${
       type === "tv" ? "tv" : "movie"
-    }/${
-      type === "tv" ? "on_the_air" : "upcoming"
-    }?language=en-US&page=${itemsPagination}`;
+    }/${type === "tv" ? "on_the_air" : "upcoming"}?language=${
+      i18n.language
+    }&page=${itemsPagination}`;
     const options = {
       method: "GET",
       headers: {
@@ -44,14 +46,14 @@ const UpComingCards = () => {
       } catch {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
       } finally {
         setLoading(false);
       }
     };
     getData();
-  }, [type, itemsPagination]);
+  }, [type, itemsPagination, i18n.language]);
 
   return (
     <div>

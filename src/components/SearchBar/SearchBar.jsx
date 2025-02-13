@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { LuSearch } from "react-icons/lu";
-import "./Searchbar.css";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import "./Searchbar.css";
 
 const SearchBar = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [err, setErr] = useState({ stat: false, msg: "" });
@@ -62,7 +64,7 @@ const SearchBar = () => {
           type="text"
           id="itemTitle"
           name="itemName"
-          placeholder="enter movie name or tv show name...."
+          placeholder={t('search_placeholder')}
           onChange={(e) => setSearchTerm(e.target.value)}
           required
           value={searchTerm}

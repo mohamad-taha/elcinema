@@ -5,8 +5,11 @@ import { PiFlagBold } from "react-icons/pi";
 import { BsPerson } from "react-icons/bs";
 import { MdDateRange } from "react-icons/md";
 import { BsBuildings } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 const ItemsDetailsCard = ({ cardDetails }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="itemDetails">
       <span className="cardSectionHead">
@@ -23,7 +26,7 @@ const ItemsDetailsCard = ({ cardDetails }) => {
             className="fill-000000"
           ></path>
         </svg>
-        Details
+        {t("details")}
       </span>
       <span className="itemGenres">
         {cardDetails?.genres?.map((genre) => (
@@ -33,30 +36,32 @@ const ItemsDetailsCard = ({ cardDetails }) => {
       <div>
         {cardDetails?.episode_run_time?.length > 0 && (
           <p>
-            <WiTime2 /> <span>Run time</span>
+            <WiTime2 /> <span>{t("run_time")}</span>
             {cardDetails?.episode_run_time?.map((time, id) => (
-              <span key={id}>{time} min</span>
+              <span key={id}>
+                {time} {t("min")}
+              </span>
             ))}
           </p>
         )}
         {cardDetails?.runtime !== "" ?? (
           <p>
-            <WiTime2 /> <span>Run time</span>
+            <WiTime2 /> <span>{t("run_time")}</span>
             {<span>{cardDetails?.runtime}</span>}
           </p>
         )}
         <p>
-          <FaLanguage /> <span>Language</span>
+          <FaLanguage /> <span>{t("language")}</span>
           <span>{cardDetails.original_language}</span>
         </p>
         <p>
           <PiFlagBold />
-          <span>Country</span>
+          <span>{t("country")}</span>
           <span>{cardDetails?.origin_country}</span>
         </p>
         {cardDetails?.created_by?.length > 0 && (
           <p>
-            <BsPerson /> <span>Creators</span>
+            <BsPerson /> <span>{t("creator")}</span>
             {cardDetails?.created_by?.map((creator, id) => (
               <span key={id}>{creator.name}</span>
             ))}
@@ -64,14 +69,14 @@ const ItemsDetailsCard = ({ cardDetails }) => {
         )}
         <p>
           <MdDateRange />
-          <span>Release date</span>
+          <span>{t("release_date")}</span>
           <span>
             {cardDetails?.first_air_date || cardDetails?.release_date}
           </span>
         </p>
         <p>
           <BsBuildings />
-          <span>Companies</span>
+          <span>{t("company")}</span>
           {cardDetails?.production_companies?.map((name, id) => (
             <span key={id}>{name.name}</span>
           ))}

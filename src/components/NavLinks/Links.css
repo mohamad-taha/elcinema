@@ -32,7 +32,7 @@
       border-radius: 5px;
       padding: 20px 10px;
       background-color: #212121;
-      width: 100%;
+      width: max-content;
       top: 20px;
       gap: 15px;
       display: flex;

@@ -2,8 +2,10 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Cards from "../Cards/Card";
 import PaginationCards from "../Pagination/ItemsPagination";
+import { useTranslation } from "react-i18next";
 
 const Card = ({ filter, setFilter }) => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { name } = useParams();
   const [itemsPagination, setItemsPagination] = useState(1);
@@ -20,7 +22,7 @@ const Card = ({ filter, setFilter }) => {
       name === "tv"
         ? `https://api.themoviedb.org/3/discover/tv?`
         : `https://api.themoviedb.org/3/discover/movie?`;
-    return `${url}&vote_count.gte=200&${
+    return `${url}&vote_count.gte=1000&${
       name === "tv" ? "first_air_date" : "primary_release_date"
     }.lte=${currentDate}&${
       name === "tv" ? "first_air_date" : "primary_release_date"
@@ -28,12 +30,14 @@ const Card = ({ filter, setFilter }) => {
       name === "tv" ? "first_air_date_year" : "primary_release_year"
     }=${filter.date}&with_genres=${
       filter.genre
-    }&include_adult=false&include_video=false&language=en-US&page=${itemsPagination}&vote_average.lte=${
+    }&include_adult=false&include_video=false&language=${
+      i18n.language
+    }&page=${itemsPagination}&vote_average.lte=${
       filter.rate
     }&vote_average.gte=5&with_companies=${filter.company}&sort_by=${
       filter.sort
     }.${filter.dir}`;
-  }, [filter, itemsPagination, name, currentDate]);
+  }, [filter, itemsPagination, name, currentDate, i18n.language]);
 
   useEffect(() => {
     const options = {
@@ -60,10 +64,11 @@ const Card = ({ filter, setFilter }) => {
       } catch {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     getData();
   }, [
@@ -76,6 +81,7 @@ const Card = ({ filter, setFilter }) => {
     filter.company,
     itemsPagination,
     name,
+    i18n.language,
   ]);
 
   return (

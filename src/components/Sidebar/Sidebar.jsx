@@ -1,11 +1,21 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../context/Context";
 import NavLinks from "../NavLinks/Links";
+import Btn from "../LanguageBtn/Btn";
+import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./Sidebar.css";
-import Btn from "../AccountBtn/Btn";
 
 const Sidebar = () => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
   const { showSidebar, setShowSidebar } = useContext(Context);
+
+  useEffect(() => {
+    if (showSidebar) {
+      setShowSidebar(false);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -20,7 +30,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div>
+    <div dir="ltr">
       <div
         role="button"
         onClick={() => setShowSidebar(false)}
@@ -33,8 +43,8 @@ const Sidebar = () => {
           transform: showSidebar ? "translateX(0)" : "translateX(-100%)",
         }}
       >
-        <Btn />
         <NavLinks />
+        <Btn />
       </div>
     </div>
   );

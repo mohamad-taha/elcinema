@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./ItemVideo.css";
 import Loading from "../Loading/Loading";
+import { useTranslation } from "react-i18next";
+import "./ItemVideo.css";
 
 const ItemVideo = () => {
+  const { t, i18n } = useTranslation();
   const { id, type, name } = useParams();
   const [trailerId, setTrailerId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -44,21 +46,19 @@ const ItemVideo = () => {
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
       }
       setLoading(false);
     };
     getVideo();
-  }, [id]);
+  }, [id, i18n.language]);
   return (
     <div className="mt">
       {loading && <Loading />}
       {trailerId && !loading && (
         <div className="trailerContainer">
-          <h1>
-            {name} <span>trailer</span>
-          </h1>
+          <h1>{t("trailer")}</h1>
           <iframe
             title={name + "trailer"}
             id="trailerFrame"

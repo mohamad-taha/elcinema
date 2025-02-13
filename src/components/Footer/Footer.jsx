@@ -1,14 +1,16 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <div className="container">
       <footer className="mt">
         <p>
-          Develpoment by{" "}
+          {t("dev_by")}{" "}
           <a target="_blank" href="https://mohamad-taha.github.io/portfolio/">
-            Mohamad Taha kasir
+            {t("my_name")}
           </a>
         </p>
         <div>

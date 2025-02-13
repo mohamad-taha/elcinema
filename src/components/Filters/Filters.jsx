@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { GoSortAsc } from "react-icons/go";
 import { GoSortDesc } from "react-icons/go";
 import GenreSelect from "./GenresSelect";
 import "./Filters.css";
 import YearSelect from "./YearSelect";
+import { useTranslation } from "react-i18next";
 
 const Filters = ({ filter, setFilter }) => {
+  const { t } = useTranslation();
   const [genre, setGenre] = useState([]);
   const [desc, setDesc] = useState(false);
 
@@ -106,12 +107,12 @@ const Filters = ({ filter, setFilter }) => {
       <YearSelect filter={filter} setFilter={setFilter} />
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="langFilterLabel">language</InputLabel>
+        <InputLabel id="langFilterLabel">{t("language")}</InputLabel>
         <Select
           labelId="langFilterLabel"
           name="filter lang"
           value={filter.lang}
-          label="Language"
+          label={t("language")}
           onChange={(e) => {
             setFilter((prev) => ({
               ...prev,
@@ -119,7 +120,7 @@ const Filters = ({ filter, setFilter }) => {
             }));
           }}
         >
-          <MenuItem value="">Language</MenuItem>
+          <MenuItem value="">{t("language")}</MenuItem>
           {languages.map((lang) => (
             <MenuItem key={lang.code} value={lang.code}>
               {lang.name}
@@ -129,12 +130,12 @@ const Filters = ({ filter, setFilter }) => {
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="rateFilterLabel">Rate</InputLabel>
+        <InputLabel id="rateFilterLabel">{t("rate")}</InputLabel>
         <Select
           labelId="rateFilterLabel"
           name="filter rate"
           value={filter.rate}
-          label="Rate"
+          label={t("rate")}
           onChange={(e) => {
             setFilter((prev) => ({
               ...prev,
@@ -142,7 +143,7 @@ const Filters = ({ filter, setFilter }) => {
             }));
           }}
         >
-          <MenuItem value="">Rate</MenuItem>
+          <MenuItem value="">{t("rate")}</MenuItem>
           {Array.from({ length: 6 }, (_, i) => {
             const rate = 10 - i;
             return (
@@ -155,12 +156,12 @@ const Filters = ({ filter, setFilter }) => {
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="companyFilterLabel">Company</InputLabel>
+        <InputLabel id="companyFilterLabel">{t("company")}</InputLabel>
         <Select
           labelId="companyFilterLabel"
           name="filter by company"
           value={filter.company}
-          label="Company"
+          label={t("company")}
           onChange={(e) => {
             setFilter((prev) => ({
               ...prev,
@@ -168,7 +169,7 @@ const Filters = ({ filter, setFilter }) => {
             }));
           }}
         >
-          <MenuItem value="">Company</MenuItem>
+          <MenuItem value="">{t("company")}</MenuItem>
           {companies.map((company) => (
             <MenuItem value={company.id} key={company.id}>
               {company.name}
@@ -178,12 +179,12 @@ const Filters = ({ filter, setFilter }) => {
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="sortFilterLabel">Sort By</InputLabel>
+        <InputLabel id="sortFilterLabel">{t("sort_by")}</InputLabel>
         <Select
           labelId="sortFilterLabel"
           name="filter sort"
           value={filter.sort}
-          label="Sort By"
+          label={t("sort_by")}
           onChange={(e) => {
             setFilter((prev) => ({
               ...prev,
@@ -191,15 +192,15 @@ const Filters = ({ filter, setFilter }) => {
             }));
           }}
         >
-          <MenuItem value="">Sort By</MenuItem>
-          <MenuItem value="popularity">Popularity</MenuItem>
+          <MenuItem value="">{t("sort_by")}</MenuItem>
+          <MenuItem value="popularity">{t("popularity")}</MenuItem>
           <MenuItem
             value={path === "tv" ? "first_air_date" : "primary_release_date"}
           >
-            Release Date
+            {t("release_date")}
           </MenuItem>
-          <MenuItem value="vote_average">Rate</MenuItem>
-          <MenuItem value="title">title</MenuItem>
+          <MenuItem value="vote_average">{t("rate")}</MenuItem>
+          <MenuItem value="title">{t("title")}</MenuItem>
         </Select>
       </FormControl>
 

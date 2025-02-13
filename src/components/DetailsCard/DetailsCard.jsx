@@ -5,9 +5,11 @@ import Loading from "../Loading/Loading";
 import ItemsDetailsCard from "./itemsDetailsCard";
 import ItemsContentCard from "./ItemsContentCard";
 import Cards from "../Cards/Card";
+import { useTranslation } from "react-i18next";
 import "./DetailsCard.css";
 
 const DetailsCard = () => {
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { type, id } = useParams();
   const [err, setErr] = useState({ stat: false, msg: "" });
@@ -31,7 +33,7 @@ const DetailsCard = () => {
 
       try {
         const resp = await fetch(
-          `https://api.themoviedb.org/3/${type}/${id}?language=en-US"`,
+          `https://api.themoviedb.org/3/${type}/${id}?language=${i18n.language}`,
           options
         );
 
@@ -55,14 +57,14 @@ const DetailsCard = () => {
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
     getData();
-  }, [id]);
+  }, [id, i18n.language]);
 
   const getCollection = async (id) => {
     try {
@@ -83,7 +85,7 @@ const DetailsCard = () => {
     } catch (error) {
       setErr(() => ({
         stat: true,
-        msg: "No internet connection or an unknown error occurred!",
+        msg: t("err_msg"),
       }));
     }
   };

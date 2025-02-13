@@ -3,9 +3,11 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import GenreSelect from "./GenresSelect";
 import { SearchContext } from "../../context/SearchContext";
 import YearSelect from "./YearSelect";
+import { useTranslation } from "react-i18next";
 
 const SearchFilters = () => {
   const { filter, setFilter, genre, setGenre } = useContext(SearchContext);
+  const { t } = useTranslation();
 
   return (
     <div className="selectsContainer">
@@ -18,7 +20,7 @@ const SearchFilters = () => {
       />
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="typeFilterlabel">Type</InputLabel>
+        <InputLabel id="typeFilterlabel">{t("type")}</InputLabel>
         <Select
           labelId="typeFilterLabel"
           aria-label="filter by type"
@@ -30,16 +32,16 @@ const SearchFilters = () => {
               type: e.target.value,
             }));
           }}
-          label="Type"
+          label={t("type")}
         >
-          <MenuItem value="">Type</MenuItem>
-          <MenuItem value="tv">Series</MenuItem>
-          <MenuItem value="movie">Movies</MenuItem>
+          <MenuItem value="">{t("type")}</MenuItem>
+          <MenuItem value="tv">{t("movies")}</MenuItem>
+          <MenuItem value="movie">{t("series")}</MenuItem>
         </Select>
       </FormControl>
 
       <FormControl sx={{ width: "150px" }}>
-        <InputLabel id="resultsRateFilterlabel">Rate</InputLabel>
+        <InputLabel id="resultsRateFilterlabel">{t("rate")}</InputLabel>
         <Select
           labelId="resultsRateFilterLabel"
           name="filter rate"
@@ -50,9 +52,9 @@ const SearchFilters = () => {
               rate: e.target.value,
             }));
           }}
-          label="Rate"
+          label={t("rate")}
         >
-          <MenuItem value="">Rate</MenuItem>
+          <MenuItem value="">{t("rate")}</MenuItem>
           {Array.from({ length: 6 }, (_, i) => {
             const rate = 10 - i;
             return (

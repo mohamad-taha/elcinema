@@ -7,9 +7,11 @@ import { BiCameraMovie } from "react-icons/bi";
 import { TbAlignBoxCenterTop } from "react-icons/tb";
 import { BiTv } from "react-icons/bi";
 import { MdOutlineUpcoming } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 import "./Links.css";
 
 const Links = () => {
+  const { t } = useTranslation();
   const [activeDropDown, setActiveDropDown] = useState(null);
 
   const handleMouseOver = (id) => {
@@ -24,17 +26,17 @@ const Links = () => {
     {
       to: "/",
       icon: <GoHome />,
-      text: "Home",
+      text: t("home"),
     },
     {
       to: "/category/movies",
       icon: <BiCameraMovie />,
-      text: "Movies",
+      text: t("movies"),
     },
     {
       to: "/category/tv",
       icon: <BiTv />,
-      text: "Series",
+      text: t("series"),
     },
   ];
 
@@ -42,51 +44,51 @@ const Links = () => {
     {
       id: "trending",
       icon: <FaFireAlt />,
-      text: "Trending",
+      text: t("trending"),
       links: [
         {
           to: "/trending/movies?page=1",
           icon: <BiCameraMovie />,
-          text: "Movies",
+          text: t("movies"),
         },
         {
           to: "/trending/tv?page=1",
           icon: <BiTv />,
-          text: "Series",
+          text: t("series"),
         },
       ],
     },
     {
       id: "top-rated",
       icon: <TbAlignBoxCenterTop />,
-      text: "Top rated",
+      text: t("top_rated"),
       links: [
         {
           to: "/premier/movies?page=1",
           icon: <BiCameraMovie />,
-          text: "Movies",
+          text: t("movies"),
         },
         {
           to: "/premier/tv?page=1",
           icon: <BiTv />,
-          text: "Series",
+          text: t("series"),
         },
       ],
     },
     {
       id: "Upcoming",
       icon: <MdOutlineUpcoming />,
-      text: "Upcoming",
+      text: t("coming"),
       links: [
         {
           to: "/coming/movies?page=1",
           icon: <BiCameraMovie />,
-          text: "Movies",
+          text: t("movies"),
         },
         {
           to: "/coming/tv?page=1",
           icon: <BiTv />,
-          text: "Series",
+          text: t("series"),
         },
       ],
     },

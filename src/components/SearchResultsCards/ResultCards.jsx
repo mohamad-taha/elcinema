@@ -3,8 +3,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Cards from "../Cards/Card";
 import PaginationCards from "../Pagination/ItemsPagination";
 import { SearchContext } from "../../context/SearchContext";
+import { useTranslation } from "react-i18next";
 
 const ResultCards = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { filter } = useContext(SearchContext);
   const [itemsPagination, setItemsPagination] = useState(1);
@@ -72,13 +74,14 @@ const ResultCards = () => {
             msg: response.statusText,
           }));
         }
-      } catch (error) {
+      } catch {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchResults();
@@ -89,6 +92,7 @@ const ResultCards = () => {
     filter.genre,
     filter.rate,
     filter.date,
+    i18n.language,
   ]);
   return (
     <div>

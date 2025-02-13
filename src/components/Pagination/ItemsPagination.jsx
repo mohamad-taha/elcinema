@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import { IoIosArrowForward } from "react-icons/io";
@@ -21,6 +22,7 @@ const PaginationCards = ({ pages, setItemsPagination }) => {
         size="small"
         onChange={handlePageChange}
         count={pages}
+        dir="ltr"
         renderItem={(item) => (
           <PaginationItem
             slots={{ previous: IoIosArrowBack, next: IoIosArrowForward }}

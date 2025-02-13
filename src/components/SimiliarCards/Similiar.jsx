@@ -4,10 +4,12 @@ import Cards from "../Cards/Card";
 import Paginaition from "../Pagination/ItemsPagination";
 import { ThemeProvider } from "@emotion/react";
 import { Theme } from "../../theme/Theme";
+import { useTranslation } from "react-i18next";
 
 const Similiar = () => {
+  const { t, i18n } = useTranslation();
   const [items, setItems] = useState([]);
-  const { type, id, name } = useParams();
+  const { type, id } = useParams();
   const [err, setErr] = useState({ stat: false, msg: "" });
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState("");
@@ -26,7 +28,7 @@ const Similiar = () => {
       setLoading(true);
       try {
         const resp = await fetch(
-          `https://api.themoviedb.org/3/${type}/${id}/similar?language=en-US&page=${itemsPagination}`,
+          `https://api.themoviedb.org/3/${type}/${id}/similar?language=${i18n.language}&page=${itemsPagination}`,
           options
         );
         const data = await resp.json();
@@ -41,22 +43,18 @@ const Similiar = () => {
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
       } finally {
         setLoading(false);
       }
     };
     getData();
-  }, [id, itemsPagination]);
+  }, [id, itemsPagination, i18n.language]);
   return (
     <ThemeProvider theme={Theme}>
       <div className="mt">
-        <h1 style={{ fontSize: "38px" }}>
-          Similiar to
-          <br />
-          <span style={{ color: "var(--primary-color)" }}>{name}</span>
-        </h1>
+        <h1 style={{ fontSize: "38px" }}>{t("similiar")}</h1>
         <Cards items={items} err={err} loading={loading} type={type} />
         <Paginaition
           pages={totalPages}

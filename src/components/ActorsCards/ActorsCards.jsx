@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Loading/Loading";
+import { useTranslation } from "react-i18next";
 import "./ActorsCards.css";
 
 const ActorsCards = () => {
+  const { t, i18n } = useTranslation();
   const { id, type } = useParams();
   const [actors, setActors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,7 +27,7 @@ const ActorsCards = () => {
       setLoading(true);
       try {
         const resp = await fetch(
-          `https://api.themoviedb.org/3/${type}/${id}/credits?language=en-US`,
+          `https://api.themoviedb.org/3/${type}/${id}/credits?language=${i18n.language}`,
           options
         );
         const data = await resp.json();
@@ -39,14 +41,14 @@ const ActorsCards = () => {
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         }));
       } finally {
         setLoading(false);
       }
     };
     getActors();
-  }, [id]);
+  }, [id, i18n.language]);
   return (
     <div className={filteredActors.length > 0 ?? "mt"}>
       {loading ?? <Loading />}

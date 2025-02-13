@@ -4,8 +4,10 @@ import Cards from "../Cards/Card";
 import GenreSelect from "../Filters/GenresSelect";
 import Pagination from "../Pagination/ItemsPagination";
 import YearSelect from "../Filters/YearSelect";
+import { useTranslation } from "react-i18next";
 
 const TrendingCards = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { type } = useParams();
   const [items, setItems] = useState([]);
@@ -49,7 +51,7 @@ const TrendingCards = () => {
         const resp = await fetch(
           `https://api.themoviedb.org/3/trending/${
             type === "tv" ? "tv" : "movie"
-          }/day?language=en-US&page=${itemsPagination}`,
+          }/day?language=${i18n.language}&page=${itemsPagination}`,
           options
         );
         const data = await resp.json();
@@ -62,14 +64,14 @@ const TrendingCards = () => {
       } catch {
         setErr({
           stat: true,
-          msg: "No internet connection or an unknown error occurred!",
+          msg: t("err_msg"),
         });
       } finally {
         setLoading(false);
       }
     };
     getData();
-  }, [itemsPagination, type, filter.genre, filter.date]);
+  }, [itemsPagination, type, filter.genre, filter.date, i18n.language]);
 
   return (
     <div className="mt">
