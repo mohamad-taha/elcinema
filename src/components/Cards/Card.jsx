@@ -19,9 +19,9 @@ const Card = ({ loading, items, err, type }) => {
             className="card"
             onClick={() =>
               navigate(
-                `/${type || (item && item?.media_type)}/${
-                  item.name || item.title
-                }/${item.id}`
+                `/${type || item?.media_type}/${item.name || item.title}/${
+                  item.id
+                }`
               )
             }
           >
@@ -51,14 +51,14 @@ const Card = ({ loading, items, err, type }) => {
             </div>
           </div>
         ))}
-      {!loading && items?.length === 0 && !err?.stat ? (
+      {!loading && !err?.stat && !items.length > 0 ? (
         <span style={{ textAlign: "center", width: "100%" }}>
           No Data Found!
         </span>
       ) : (
         ""
       )}
-      {err?.stat && (
+      {err?.stat && !items.length > 0 && (
         <span style={{ textAlign: "center", width: "100%" }}>{err.msg}</span>
       )}
     </div>

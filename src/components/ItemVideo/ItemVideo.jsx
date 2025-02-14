@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import "./ItemVideo.css";
 
 const ItemVideo = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { id, type, name } = useParams();
   const [trailerId, setTrailerId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,6 +14,8 @@ const ItemVideo = () => {
   useEffect(() => {
     const getVideo = async () => {
       setLoading(true);
+      setErr({ stat: false, msg: "" });
+
       try {
         const options = {
           method: "GET",
@@ -29,45 +31,54 @@ const ItemVideo = () => {
           options
         );
 
-        const data = await resp?.json();
+        if (!resp.ok) {
+          throw new Error(resp.statusText);
+        }
+
+        const data = await resp.json();
 
         const trailer = data?.results?.find(
           (video) => video?.type === "Trailer" && video?.site === "YouTube"
         );
 
-        setTrailerId(trailer?.key);
-
-        if (!response.ok) {
-          setErr(() => ({
-            err: true,
-            msg: response.statusText,
-          }));
+        if (!trailer) {
+          throw new Error(t("no_trailer_found"));
         }
+
+        setTrailerId(trailer.key);
       } catch (error) {
-        setErr(() => ({
+        setErr({
           stat: true,
-          msg: t("err_msg"),
-        }));
+          msg:
+            error.message === "Failed to fetch" ? t("err_msg") : error.message,
+        });
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
+
     getVideo();
-  }, [id, i18n.language]);
+  }, [id, type]);
+
   return (
     <div className="mt">
       {loading && <Loading />}
-      {trailerId && !loading && (
+
+      {!loading && trailerId && (
         <div className="trailerContainer">
           <h1>{t("trailer")}</h1>
           <iframe
-            title={name + "trailer"}
+            title={`${name} trailer`}
             id="trailerFrame"
             src={`https://www.youtube.com/embed/${trailerId}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           ></iframe>
         </div>
       )}
-      {err.stat ?? <span>{err.msg}</span>}
+
+      {!loading && err.stat && (
+        <p style={{ width: "100%", textAlign: "center" }}>{err.msg}</p>
+      )}
     </div>
   );
 };

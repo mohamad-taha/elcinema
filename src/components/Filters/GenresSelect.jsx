@@ -1,17 +1,21 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
   const { t, i18n } = useTranslation();
+  const [err, setErr] = useState(false);
 
   useEffect(() => {
     const fetchGenres = async () => {
-      if (path) {
+      if (!path) return;
+
+      try {
+        setErr(false);
         const response = await fetch(
-          path === "tv"
-            ? `https://api.themoviedb.org/3/genre/tv/list?language=${i18n.language}`
-            : `https://api.themoviedb.org/3/genre/movie/list?language=${i18n.language}`,
+          `https://api.themoviedb.org/3/genre/${
+            path === "tv" ? "tv" : "movie"
+          }/list?language=${i18n.language}`,
           {
             method: "GET",
             headers: {
@@ -21,15 +25,27 @@ const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
             },
           }
         );
+
         if (!response.ok) {
           throw new Error("Failed to fetch genres");
         }
+
         const data = await response.json();
         setGenre(data.genres);
+      } catch (err) {
+        setErr(err.message === "Failed to fetch" ? t("err_msg") : err.message);
       }
     };
+
     fetchGenres();
-  }, [path, i18n.language]);
+  }, [path, i18n.language, setGenre]);
+
+  useEffect(() => {
+    setFilter((prev) => ({
+      ...prev,
+      genre: "",
+    }));
+  }, [path]);
 
   return (
     <FormControl sx={{ width: "150px" }}>
@@ -37,7 +53,7 @@ const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
       <Select
         labelId="genreFilterLabel"
         name="filter genre"
-        value={filter?.genre ?? ""}
+        value={filter?.genre || ""}
         label={t("genres")}
         onChange={(e) =>
           setFilter((prev) => ({
@@ -46,9 +62,8 @@ const GenreSelect = ({ genre, setGenre, path, filter, setFilter }) => {
           }))
         }
       >
-        <MenuItem defaultChecked value="">
-          {t("genres")}
-        </MenuItem>
+        {err && <MenuItem>{err.message}</MenuItem>}
+        <MenuItem value="">{t("genres")}</MenuItem>
         {genre?.map((item) => (
           <MenuItem key={item.id} value={item.id}>
             {item.name}

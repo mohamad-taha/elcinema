@@ -15,74 +15,77 @@ const Card = ({ filter, setFilter }) => {
 
   const currentDate = useMemo(() => new Date().toISOString().split("T")[0], []);
 
-  const mediaType = name === "tv" ? "tv" : "movie";
+  const mediaType = useMemo(() => (name === "tv" ? "tv" : "movie"), [name]);
 
   const baseUrl = useMemo(() => {
-    const url =
-      name === "tv"
-        ? `https://api.themoviedb.org/3/discover/tv?`
-        : `https://api.themoviedb.org/3/discover/movie?`;
-    return `${url}&vote_count.gte=1000&${
-      name === "tv" ? "first_air_date" : "primary_release_date"
-    }.lte=${currentDate}&${
-      name === "tv" ? "first_air_date" : "primary_release_date"
-    }.gte=2000-01-01&with_original_language=${filter.lang}&${
-      name === "tv" ? "first_air_date_year" : "primary_release_year"
-    }=${filter.date}&with_genres=${
-      filter.genre
-    }&include_adult=false&include_video=false&language=${
-      i18n.language
-    }&page=${itemsPagination}&vote_average.lte=${
-      filter.rate
-    }&vote_average.gte=5&with_companies=${filter.company}&sort_by=${
-      filter.sort
-    }.${filter.dir}`;
-  }, [filter, itemsPagination, name, currentDate, i18n.language]);
+    if (!filter) return "";
+
+    return (
+      `https://api.themoviedb.org/3/discover/${mediaType}?` +
+      `vote_count.gte=300&` +
+      `${
+        mediaType === "tv" ? "first_air_date" : "primary_release_date"
+      }.lte=${currentDate}&` +
+      `${
+        mediaType === "tv" ? "first_air_date" : "primary_release_date"
+      }.gte=2000-01-01&` +
+      `with_original_language=${filter.lang}&` +
+      `${mediaType === "tv" ? "first_air_date_year" : "primary_release_year"}=${
+        filter.date
+      }&` +
+      `with_genres=${filter.genre}&include_adult=false&include_video=false&` +
+      `language=${i18n.language}&page=${itemsPagination}&` +
+      `vote_average.lte=${filter.rate}&vote_average.gte=5&` +
+      `with_companies=${filter.company}&sort_by=${filter.sort}.${filter.dir}`
+    );
+  }, [filter, itemsPagination, mediaType, currentDate, i18n.language, name]);
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c",
-      },
-    };
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(baseUrl, options);
-        const data = await response.json();
+    if (!baseUrl) return;
 
-        setFilter((prev) => ({ ...prev, items: data?.results }));
-        setTotalPages(data?.total_pages);
-        navigate(`/category/${name}?page=${itemsPagination}`);
+    const fetchData = async () => {
+      setLoading(true);
+      setErr({ stat: false, msg: "" });
+
+      try {
+        const response = await fetch(baseUrl, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c",
+          },
+        });
 
         if (!response.ok) {
-          setErr(() => ({ stat: true, msg: response.statusText }));
+          throw new Error(response.statusText);
         }
-      } catch {
-        setErr(() => ({
+
+        const data = await response.json();
+        setTotalPages(data?.total_pages || 1);
+
+        setFilter((prev) =>
+          JSON.stringify(prev.items) !== JSON.stringify(data.results)
+            ? { ...prev, items: data.results }
+            : prev
+        );
+      } catch (error) {
+        setErr({
           stat: true,
-          msg: t("err_msg"),
-        }));
+          msg:
+            error.message === "Failed to fetch" ? t("err_msg") : error.message,
+        });
       } finally {
         setLoading(false);
       }
     };
-    getData();
-  }, [
-    filter.genre,
-    filter.date,
-    filter.lang,
-    filter.rate,
-    filter.sort,
-    filter.dir,
-    filter.company,
-    itemsPagination,
-    name,
-    i18n.language,
-  ]);
+
+    fetchData();
+  }, [baseUrl]);
+
+  useEffect(() => {
+    navigate(`/category/${name}?page=${itemsPagination}`);
+  }, [itemsPagination, navigate, name]);
 
   return (
     <div>

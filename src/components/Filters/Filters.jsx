@@ -5,13 +5,13 @@ import GenreSelect from "./GenresSelect";
 import "./Filters.css";
 import YearSelect from "./YearSelect";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 const Filters = ({ filter, setFilter }) => {
+  const location = useLocation();
   const { t } = useTranslation();
   const [genre, setGenre] = useState([]);
   const [desc, setDesc] = useState(false);
-
-  const path = window.location.pathname.split("/").pop();
 
   const languages = [
     { code: "en", name: "English" },
@@ -81,17 +81,14 @@ const Filters = ({ filter, setFilter }) => {
     },
   ];
 
+  const path = location.pathname.split("/").pop();
+
   const handleSortChange = () => {
-    setDesc(!desc);
-    !desc
-      ? setFilter((prev) => ({
-          ...prev,
-          dir: "asc",
-        }))
-      : setFilter((prev) => ({
-          ...prev,
-          dir: "desc",
-        }));
+    setDesc((prevDesc) => !prevDesc);
+    setFilter((prev) => ({
+      ...prev,
+      dir: !desc ? "asc" : "desc",
+    }));
   };
 
   return (

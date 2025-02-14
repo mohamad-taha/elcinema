@@ -10,8 +10,8 @@ const ActorsCards = () => {
   const [actors, setActors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState({ stat: false, msg: "" });
-  const filteredActors = actors.filter(
-    (actor) => actor.profile_path !== null && actor.popularity > 10
+  const filteredActors = actors?.filter(
+    (actor) => actor?.profile_path !== null && actor?.popularity > 10
   );
 
   useEffect(() => {
@@ -32,16 +32,17 @@ const ActorsCards = () => {
         );
         const data = await resp.json();
         setActors(data?.cast);
-        if (!response.ok) {
+        if (!resp.ok) {
           setErr(() => ({
             err: true,
-            msg: response.statusText,
+            msg: resp.statusText,
           }));
         }
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: t("err_msg"),
+          msg:
+            error.message === "Failed to fetch" ? t("err_msg") : error.message,
         }));
       } finally {
         setLoading(false);
@@ -50,9 +51,9 @@ const ActorsCards = () => {
     getActors();
   }, [id, i18n.language]);
   return (
-    <div className={filteredActors.length > 0 ?? "mt"}>
-      {loading ?? <Loading />}
-      {filteredActors.length > 0 ?? (
+    <div className={filteredActors?.length > 0 ? "mt" : ""}>
+      {loading && <Loading />}
+      {filteredActors?.length > 0 && (
         <h1 style={{ fontSize: "38px" }}>Actors</h1>
       )}
       <div className="actorsContainer">
@@ -77,7 +78,7 @@ const ActorsCards = () => {
             </div>
           ))}
       </div>
-      {err.stat ?? <span>{err.msg}</span>}
+      {err.stat && <span>{err.msg}</span>}
     </div>
   );
 };

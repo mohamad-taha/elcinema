@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PaginationCards from "../Pagination/ItemsPagination";
 import Cards from "../Cards/Card";
@@ -16,7 +16,7 @@ const UpComingCards = () => {
 
   const mediaType = type === "tv" ? "tv" : "movie";
 
-  useEffect(() => {
+  const getData = useCallback(async () => {
     const API_KEY =
       "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c";
     const API_URL = `https://api.themoviedb.org/3/${
@@ -32,28 +32,29 @@ const UpComingCards = () => {
       },
     };
 
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(API_URL, options);
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        const data = await response.json();
-        setItems(data.results);
-        setTotalPages(data.total_pages);
-        navigate(`/coming/${type}?page=${itemsPagination}`);
-      } catch {
-        setErr(() => ({
-          stat: true,
-          msg: t("err_msg"),
-        }));
-      } finally {
-        setLoading(false);
+    setLoading(true);
+    try {
+      const response = await fetch(API_URL, options);
+      if (!response.ok) {
+        throw new Error(response.statusText);
       }
-    };
+      const data = await response.json();
+      setItems(data.results);
+      setTotalPages(data.total_pages);
+      navigate(`/coming/${type}?page=${itemsPagination}`);
+    } catch (error) {
+      setErr({
+        stat: true,
+        msg: error.message === "Failed to fetch" ? t("err_msg") : error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [type, itemsPagination, i18n.language, navigate, t]);
+
+  useEffect(() => {
     getData();
-  }, [type, itemsPagination, i18n.language]);
+  }, [getData]);
 
   return (
     <div>

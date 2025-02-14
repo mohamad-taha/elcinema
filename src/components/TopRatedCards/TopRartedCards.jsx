@@ -6,12 +6,15 @@ import GenreSelect from "../Filters/GenresSelect";
 import YearSelect from "../Filters/YearSelect";
 import { useTranslation } from "react-i18next";
 
+const AUTH_TOKEN =
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c";
+
 const TopRatedCards = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { type } = useParams();
   const [items, setItems] = useState([]);
-  const [totalPages, setTotalPages] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
   const [err, setErr] = useState({ stat: false, msg: "" });
   const [loading, setLoading] = useState(false);
   const [itemsPagination, setItemsPagination] = useState(1);
@@ -20,66 +23,65 @@ const TopRatedCards = () => {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  const filteredData = items?.filter((item) => {
-    const genre = filter.genre === "" || item.genre_ids.includes(filter.genre);
-    const vote = item.vote_count > 100;
-    const date =
+  const filteredData = items.filter((item) => {
+    const genreMatch =
+      filter.genre === "" || item.genre_ids.includes(Number(filter.genre));
+    const voteMatch = item.vote_count > 100;
+    const dateMatch =
       filter.date === ""
-        ? item.first_air_date || item.release_date < currentDate
-        : item.first_air_date || item.release_date < `${filter.date}-1-1`;
+        ? item.first_air_date?.slice(0, 10) < currentDate ||
+          item.release_date?.slice(0, 10) < currentDate
+        : item.first_air_date?.slice(0, 4) <= filter.date ||
+          item.release_date?.slice(0, 4) <= filter.date;
 
-    return genre && vote && date;
+    return genreMatch && voteMatch && dateMatch;
   });
 
   const mediaType = type === "tv" ? "tv" : "movie";
 
   useEffect(() => {
-    setFilter(() => ({
-      genre: "",
-      date: "",
-    }));
-  }, [window.location.pathname]);
+    setFilter({ genre: "", date: "" });
+  }, [type]);
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c",
-      },
-    };
-
-    const getData = async () => {
+    const fetchData = async () => {
       setLoading(true);
+      setErr({ stat: false, msg: "" });
+
       try {
-        const resp = await fetch(
-          `https://api.themoviedb.org/3/${
-            type === "tv" ? "tv" : "movie"
-          }/top_rated?language=${i18n.language}&page=${itemsPagination}`,
-          options
+        const response = await fetch(
+          `https://api.themoviedb.org/3/${mediaType}/top_rated?language=${i18n.language}&page=${itemsPagination}`,
+          {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+              Authorization: AUTH_TOKEN,
+            },
+          }
         );
-        const data = await resp.json();
-        setItems(data.results);
-        setTotalPages(data.total_pages);
-        navigate(`/premier/${type}?page=${itemsPagination}`);
+
         if (!response.ok) {
-          setErr(() => ({
-            stat: true,
-            msg: response.statusText,
-          }));
+          throw new Error(response.statusText);
         }
+
+        const data = await response.json();
+        setItems(data.results || []);
+        setTotalPages(data.total_pages || 1);
+        navigate(`/premier/${type}?page=${itemsPagination}`);
       } catch (error) {
-        setErr(() => ({
+        setErr({
           stat: true,
-          msg: t("err_msg"),
-        }));
+          msg:
+            error.message === "Failed to fetch" ? t("err_msg") : error.message,
+        });
       } finally {
         setLoading(false);
       }
     };
-    getData();
-  }, [itemsPagination, type, filter.genre, filter.date, i18n.language]);
+
+    fetchData();
+  }, [itemsPagination, type, i18n.language]);
+
   return (
     <div className="mt">
       <div className="selectsContainer">

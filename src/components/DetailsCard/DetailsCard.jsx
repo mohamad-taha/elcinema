@@ -6,6 +6,7 @@ import ItemsDetailsCard from "./itemsDetailsCard";
 import ItemsContentCard from "./ItemsContentCard";
 import Cards from "../Cards/Card";
 import { useTranslation } from "react-i18next";
+import logo from "../../assets/imgs/logo.svg";
 import "./DetailsCard.css";
 
 const DetailsCard = () => {
@@ -48,16 +49,17 @@ const DetailsCard = () => {
           setSerieCollection(data?.seasons);
         }
 
-        if (!response.ok) {
+        if (!resp.ok) {
           setErr(() => ({
             err: true,
-            msg: response.statusText,
+            msg: resp.statusText,
           }));
         }
       } catch (error) {
         setErr(() => ({
           stat: true,
-          msg: t("err_msg"),
+          msg:
+            error.message === "Failed to fetch" ? t("err_msg") : error.message,
         }));
       } finally {
         setLoading(false);
@@ -76,16 +78,16 @@ const DetailsCard = () => {
       setCollection(data.parts);
       setMediaType(data.parts[0].media_type);
 
-      if (!response.ok) {
+      if (!resp.ok) {
         setErr(() => ({
           err: true,
-          msg: response.statusText,
+          msg: resp.statusText,
         }));
       }
     } catch (error) {
       setErr(() => ({
         stat: true,
-        msg: t("err_msg"),
+        msg: error.message === "Failed to fetch" ? t("err_msg") : error.message,
       }));
     }
   };
@@ -107,7 +109,7 @@ const DetailsCard = () => {
               src={
                 cardDetails?.backdrop_path !== null
                   ? `https://image.tmdb.org/t/p/w500${cardDetails?.poster_path}`
-                  : "/logo.svg"
+                  : logo
               }
               alt={cardDetails?.title || cardDetails?.name}
             />
@@ -131,7 +133,7 @@ const DetailsCard = () => {
               src={
                 serie.poster_path
                   ? `https://image.tmdb.org/t/p/w500${serie.poster_path}`
-                  : "/logo.svg"
+                  : logo
               }
               alt="poster img"
             />
@@ -145,7 +147,7 @@ const DetailsCard = () => {
           </div>
         ))}
       </div>
-      {err.stat ?? <span>{err.msg}</span>}
+      {err.stat && 0 && <span>{err.msg}</span>}
     </div>
   );
 };
