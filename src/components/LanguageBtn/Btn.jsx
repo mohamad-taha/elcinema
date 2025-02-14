@@ -24,7 +24,7 @@ const LanguageToggleBtn = () => {
       style={{ fontSize: "16px" }}
       onClick={toggleLanguage}
       className="linksBtn"
-      aria-label={t("change_language")}
+      aria-label="change language"
     >
       {t("lang")}
       <FaLanguage fontSize={25} />

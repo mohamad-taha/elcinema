@@ -28,7 +28,11 @@ const Navbar = () => {
       </Link>
       <Links />
       <Btn />
-      <button onClick={() => setShowSidebar(true)} className="menuBtn linksBtn">
+      <button
+        aria-label="menu button"
+        onClick={() => setShowSidebar(true)}
+        className="menuBtn linksBtn"
+      >
         <TbListTree fontSize={25} />
       </button>
     </nav>
