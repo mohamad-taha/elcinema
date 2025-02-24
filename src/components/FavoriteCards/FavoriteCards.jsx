@@ -30,7 +30,9 @@ const FavoriteCards = () => {
         };
 
         const resp = await fetch(
-          `https://api.themoviedb.org/3/account/${id}/favorite/${type}?language=en-US&page=${itemsPagination}&sort_by=created_at.asc`,
+          `https://api.themoviedb.org/3/account/${id}/favorite/${type}?session_id=${localStorage.getItem(
+            "session_id"
+          )}&language=en-US&page=${itemsPagination}&sort_by=created_at.asc`,
           options
         );
 

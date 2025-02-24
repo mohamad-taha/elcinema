@@ -84,7 +84,6 @@ const AccountBtn = () => {
       <button
         style={{
           direction: "ltr",
-          width: user !== null ? "120px" : "max-content",
           position: "relative",
         }}
         onMouseOver={() => user && setIcn(true)}
@@ -97,7 +96,7 @@ const AccountBtn = () => {
         <IoLogOutOutline
           style={{
             transition: "200ms",
-            transform: icn ? "translateX(0)" : "translateX(-20%)",
+            transform: icn ? "translateX(100%)" : "translateX(-20%)",
             opacity: icn ? "1" : "0",
             position: "absolute",
             right: "0",
