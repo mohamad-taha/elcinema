@@ -35,9 +35,14 @@ const UpComingCards = () => {
     setLoading(true);
     try {
       const response = await fetch(API_URL, options);
+
       if (!response.ok) {
-        throw new Error(response.statusText);
+        setErr({
+          stat: true,
+          msg: response.statusText,
+        });
       }
+
       const data = await response.json();
       setItems(data.results);
       setTotalPages(data.total_pages);

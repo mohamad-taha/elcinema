@@ -8,6 +8,7 @@ import { TbAlignBoxCenterTop } from "react-icons/tb";
 import { BiTv } from "react-icons/bi";
 import { MdOutlineUpcoming } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import { GrFavorite } from "react-icons/gr";
 import "./Links.css";
 
 const Links = () => {
@@ -87,6 +88,23 @@ const Links = () => {
         },
         {
           to: "/coming/tv?page=1",
+          icon: <BiTv />,
+          text: t("series"),
+        },
+      ],
+    },
+    {
+      id: "Favorites",
+      icon: <GrFavorite />,
+      text: t("fav"),
+      links: [
+        {
+          to: "/favorites/movies?page=1",
+          icon: <BiCameraMovie />,
+          text: t("movies"),
+        },
+        {
+          to: "/favorites/tv?page=1",
           icon: <BiTv />,
           text: t("series"),
         },

@@ -61,7 +61,10 @@ const TopRatedCards = () => {
         );
 
         if (!response.ok) {
-          throw new Error(response.statusText);
+          setErr({
+            stat: true,
+            msg: response.statusText,
+          });
         }
 
         const data = await response.json();

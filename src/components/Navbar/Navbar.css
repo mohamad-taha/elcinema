@@ -30,6 +30,10 @@
   .menuBtn {
     display: none;
   }
+
+  .accountBtn {
+    margin-left: 20px;
+  }
 }
 
 .navScrolled {
@@ -49,6 +53,10 @@
 
     .menuBtn {
       display: flex;
+    }
+
+    .accountBtn {
+      display: none;
     }
   }
 }

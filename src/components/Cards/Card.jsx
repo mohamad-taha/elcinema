@@ -3,14 +3,18 @@ import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import logo from "../../assets/imgs/logo.svg";
+import LikeBtn from "../LikeBtn/Like";
 import "./Card.css";
 
-const Card = ({ loading, items, err, type }) => {
+const Card = ({ loading, items, err, type, setReload, reload }) => {
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user")) || null;
+
+  const mediaType = type === "tv" ? "tv" : "movie";
 
   return (
     <div className="cardsContainer mt">
-      {loading && <Loading />}
       {!loading &&
         items?.map((item) => (
           <div
@@ -19,7 +23,7 @@ const Card = ({ loading, items, err, type }) => {
             className="card"
             onClick={() =>
               navigate(
-                `/${type || item?.media_type}/${item.name || item.title}/${
+                `/${item?.media_type || mediaType}/${item.name || item.title}/${
                   item.id
                 }`
               )
@@ -40,6 +44,16 @@ const Card = ({ loading, items, err, type }) => {
               )}
             </div>
             <div className="second-content">
+              {user !== null && (
+                <LikeBtn
+                  id={item.id}
+                  mediaType={mediaType}
+                  media_type={item.media_type}
+                  userId={user.id}
+                  setReload={setReload}
+                  reload={reload}
+                />
+              )}
               <span className="rate">
                 <FaStar fill="#f3951e" />
                 {item?.vote_average?.toFixed(1)}
@@ -51,7 +65,8 @@ const Card = ({ loading, items, err, type }) => {
             </div>
           </div>
         ))}
-      {!loading && !err?.stat && !items.length > 0 ? (
+      {loading && <Loading />}
+      {!loading && !err?.stat && items.length === 0 ? (
         <span style={{ textAlign: "center", width: "100%" }}>
           No Data Found!
         </span>

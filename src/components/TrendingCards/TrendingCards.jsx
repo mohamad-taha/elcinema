@@ -27,7 +27,6 @@ const TrendingCards = () => {
   const filteredData = items.filter((item) => {
     const genreMatch =
       filter.genre === "" || item.genre_ids.includes(Number(filter.genre));
-    const voteMatch = item.vote_count > 100;
     const dateMatch =
       filter.date === ""
         ? (item.first_air_date && item.first_air_date < currentDate) ||
@@ -36,7 +35,7 @@ const TrendingCards = () => {
             item.first_air_date.slice(0, 4) <= filter.date) ||
           (item.release_date && item.release_date.slice(0, 4) <= filter.date);
 
-    return genreMatch && voteMatch && dateMatch;
+    return genreMatch && dateMatch;
   });
 
   useEffect(() => {
@@ -63,7 +62,10 @@ const TrendingCards = () => {
         );
 
         if (!response.ok) {
-          throw new Error(response.statusText);
+          setErr({
+            stat: true,
+            msg: response.statusText,
+          });
         }
 
         const data = await response.json();

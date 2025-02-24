@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const Card = ({ filter, setFilter }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { name } = useParams();
+  const { type } = useParams();
   const [itemsPagination, setItemsPagination] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [err, setErr] = useState({ stat: false, msg: "" });
@@ -15,14 +15,14 @@ const Card = ({ filter, setFilter }) => {
 
   const currentDate = useMemo(() => new Date().toISOString().split("T")[0], []);
 
-  const mediaType = useMemo(() => (name === "tv" ? "tv" : "movie"), [name]);
+  const mediaType = useMemo(() => (type === "tv" ? "tv" : "movie"), [type]);
 
   const baseUrl = useMemo(() => {
     if (!filter) return "";
 
     return (
       `https://api.themoviedb.org/3/discover/${mediaType}?` +
-      `vote_count.gte=300&` +
+      `vote_count.gte=2&` +
       `${
         mediaType === "tv" ? "first_air_date" : "primary_release_date"
       }.lte=${currentDate}&` +
@@ -38,7 +38,7 @@ const Card = ({ filter, setFilter }) => {
       `vote_average.lte=${filter.rate}&vote_average.gte=5&` +
       `with_companies=${filter.company}&sort_by=${filter.sort}.${filter.dir}`
     );
-  }, [filter, itemsPagination, mediaType, currentDate, i18n.language, name]);
+  }, [filter, itemsPagination, mediaType, currentDate, i18n.language, type]);
 
   useEffect(() => {
     if (!baseUrl) return;
@@ -57,10 +57,6 @@ const Card = ({ filter, setFilter }) => {
           },
         });
 
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-
         const data = await response.json();
         setTotalPages(data?.total_pages || 1);
 
@@ -69,6 +65,13 @@ const Card = ({ filter, setFilter }) => {
             ? { ...prev, items: data.results }
             : prev
         );
+
+        if (!response.ok) {
+          setErr({
+            stat: true,
+            msg: response.statusText,
+          });
+        }
       } catch (error) {
         setErr({
           stat: true,
@@ -84,8 +87,8 @@ const Card = ({ filter, setFilter }) => {
   }, [baseUrl]);
 
   useEffect(() => {
-    navigate(`/category/${name}?page=${itemsPagination}`);
-  }, [itemsPagination, navigate, name]);
+    navigate(`/category/${type}?page=${itemsPagination}`);
+  }, [itemsPagination, navigate, type]);
 
   return (
     <div>

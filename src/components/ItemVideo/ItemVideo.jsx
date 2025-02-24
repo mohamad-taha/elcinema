@@ -32,7 +32,10 @@ const ItemVideo = () => {
         );
 
         if (!resp.ok) {
-          throw new Error(resp.statusText);
+          setErr({
+            stat: true,
+            msg: resp.statusText,
+          });
         }
 
         const data = await resp.json();

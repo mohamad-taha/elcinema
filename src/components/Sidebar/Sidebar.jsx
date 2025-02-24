@@ -5,6 +5,7 @@ import Btn from "../LanguageBtn/Btn";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "./Sidebar.css";
+import AccountBtn from "../AccountBtn/AccountBtn";
 
 const Sidebar = () => {
   const { i18n } = useTranslation();
@@ -43,6 +44,9 @@ const Sidebar = () => {
           transform: showSidebar ? "translateX(0)" : "translateX(-100%)",
         }}
       >
+        <div>
+          <AccountBtn />
+        </div>
         <NavLinks />
         <Btn />
       </div>

@@ -40,6 +40,12 @@ i18n
           creator: "Creators",
           type: "Type",
           similiar: "Similiar shows",
+          auth_not_approved:
+            "Authentication was not approved. Please try again.",
+          auth_error: "Authentication failed. Please try again.",
+          auth_success: "Authentication complete.",
+          logout_err: "Error signing out",
+          fav: "Favorites",
         },
       },
       ar: {
@@ -75,6 +81,12 @@ i18n
           creator: "المنتجين",
           type: "النوع",
           similiar: "العروض المشابهة",
+          auth_not_approved:
+            "لم تقم بالموافقة على المصادقة. يرجى المحاولة مرة أخرى.",
+          auth_error: "حدث خطأ أثناء المصادقة. يرجى المحاولة لاحقًا.",
+          auth_success: "تم تسجيل الدخول بنجاح",
+          logout_err: "خطأ أثناء تسجيل الخروج",
+          fav: "المفضلة",
         },
       },
     },

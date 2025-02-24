@@ -88,6 +88,15 @@
   border-top-right-radius: 0px !important;
 }
 
+.likeBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: none;
+}
+
 @media (max-width: 639px) {
   .cardsContainer {
     justify-content: space-between;

@@ -51,7 +51,7 @@ const DetailsCard = () => {
 
         if (!resp.ok) {
           setErr(() => ({
-            err: true,
+            stat: true,
             msg: resp.statusText,
           }));
         }
@@ -147,7 +147,7 @@ const DetailsCard = () => {
           </div>
         ))}
       </div>
-      {err.stat && 0 && <span>{err.msg}</span>}
+      {err.stat && <span>{err.msg}</span>}
     </div>
   );
 };

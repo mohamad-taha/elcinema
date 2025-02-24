@@ -6,6 +6,7 @@ import { TbListTree } from "react-icons/tb";
 import { Context } from "../../context/Context";
 import Btn from "../LanguageBtn/Btn";
 import "./Navbar.css";
+import AccountBtn from "../AccountBtn/AccountBtn";
 
 const Navbar = () => {
   const { setShowSidebar } = useContext(Context);
@@ -27,14 +28,17 @@ const Navbar = () => {
         <img src={logo} alt="logo" width={60} />
       </Link>
       <Links />
-      <Btn />
-      <button
-        aria-label="menu button"
-        onClick={() => setShowSidebar(true)}
-        className="menuBtn linksBtn"
-      >
-        <TbListTree fontSize={25} />
-      </button>
+      <div>
+        <Btn />
+        <button
+          aria-label="menu button"
+          onClick={() => setShowSidebar(true)}
+          className="menuBtn linksBtn"
+        >
+          <TbListTree fontSize={25} />
+        </button>
+        <AccountBtn />
+      </div>
     </nav>
   );
 };

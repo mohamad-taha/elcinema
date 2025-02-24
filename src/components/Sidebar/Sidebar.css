@@ -6,24 +6,9 @@
   top: 0;
   padding: 50px;
   z-index: 999;
-
-  button {
-    background-color: transparent;
-    border: none;
-    transition: 200ms;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    path {
-      transition: 200ms;
-    }
-
-    &:hover > svg > path,
-    &:hover {
-      color: var(--primary-color);
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }
 
 .overlay {

@@ -5,10 +5,11 @@ const Loading = () => {
   return (
     <div
       style={{
-        marginTop: "30px",
-        width: "100%",
-        justifyContent: "center",
-        display: "flex",
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex:'55'
       }}
     >
       <div className="dot-spinner">

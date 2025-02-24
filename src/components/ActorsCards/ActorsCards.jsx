@@ -34,7 +34,7 @@ const ActorsCards = () => {
         setActors(data?.cast);
         if (!resp.ok) {
           setErr(() => ({
-            err: true,
+            stat: true,
             msg: resp.statusText,
           }));
         }
