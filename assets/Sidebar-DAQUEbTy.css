@@ -1,0 +1,1 @@
+.sidebar{transition:.2s;background-color:#212121;position:fixed;height:100%;top:0;padding:50px;z-index:999;display:flex;flex-direction:column;gap:50px}.overlay{z-index:899;position:fixed;width:100vw;height:100vh;background-color:#00000047;top:0}.sidebar .navLinksContainer{display:flex;flex-direction:column;gap:30px;margin-bottom:20px}
