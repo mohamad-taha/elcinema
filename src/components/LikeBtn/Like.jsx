@@ -11,7 +11,9 @@ const Like = ({ id, mediaType, media_type, userId, reload, setReload }) => {
         const apiType = currentMediaType === "movie" ? "movies" : "tv";
 
         const response = await fetch(
-          `https://api.themoviedb.org/3/account/${userId}/favorite/${apiType}?language=en-US&page=1`,
+          `https://api.themoviedb.org/3/account/${userId}/favorite/${apiType}?session_id=${localStorage.getItem(
+            "session_id"
+          )}&language=en-US&page=1`,
           {
             method: "GET",
             headers: {
