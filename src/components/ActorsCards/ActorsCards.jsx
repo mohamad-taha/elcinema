@@ -54,7 +54,7 @@ const ActorsCards = () => {
     <div className={filteredActors?.length > 0 ? "mt" : ""}>
       {loading && <Loading />}
       {filteredActors?.length > 0 && (
-        <h1 style={{ fontSize: "38px" }}>Actors</h1>
+        <h1 style={{ fontSize: "38px" }}>{t("actors")}</h1>
       )}
       <div className="actorsContainer">
         {!loading &&

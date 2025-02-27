@@ -46,6 +46,8 @@ i18n
           auth_success: "Authentication complete.",
           logout_err: "Error signing out",
           fav: "Favorites",
+          actors: "Actors",
+          no_trailer_found: "No trailer found!",
         },
       },
       ar: {
@@ -87,6 +89,8 @@ i18n
           auth_success: "تم تسجيل الدخول بنجاح",
           logout_err: "خطأ أثناء تسجيل الخروج",
           fav: "المفضلة",
+          actors: "الممثلين",
+          no_trailer_found: "لا يوجد مقطع دعائي!",
         },
       },
     },

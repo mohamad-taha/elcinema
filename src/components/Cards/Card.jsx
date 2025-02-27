@@ -73,7 +73,7 @@ const Card = ({ loading, items, err, type, setReload, reload }) => {
       ) : (
         ""
       )}
-      {err?.stat && !items.length > 0 && (
+      {err?.stat && !items?.length > 0 && (
         <span style={{ textAlign: "center", width: "100%" }}>{err.msg}</span>
       )}
     </div>

@@ -44,10 +44,16 @@ const ItemsDetailsCard = ({ cardDetails }) => {
             ))}
           </p>
         )}
-        {cardDetails?.runtime !== "" ?? (
+        {cardDetails?.runtime !== "" && (
           <p>
             <WiTime2 /> <span>{t("run_time")}</span>
             {<span>{cardDetails?.runtime}</span>}
+          </p>
+        )}
+        {cardDetails?.runtime && (
+          <p>
+            <WiTime2 /> <span>{t("run_time")}</span>
+            <span>{cardDetails.runtime}</span>
           </p>
         )}
         <p>
