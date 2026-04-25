@@ -17,24 +17,26 @@ import "./App.css";
 
 const App = () => {
   return (
-    <>
+    <div className="app-wrapper">
       <Navbar />
       <Suspense fallback={<Loading />}>
         <Sidebar />
       </Suspense>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="category/:type" element={<ItemsPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/:type/:name/:id" element={<DetailsPage />} />
-        <Route path="/trending/:type" element={<TrendingItems />} />
-        <Route path="/premier/:type" element={<TopRatedItems />} />
-        <Route path="/coming/:type" element={<UpComingItems />} />
-        <Route path="/callback" element={<Callback />} />
-        <Route path="/favorites/:type" element={<FavoriteItems />} />
-      </Routes>
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="category/:type" element={<ItemsPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/:type/:name/:id" element={<DetailsPage />} />
+          <Route path="/trending/:type" element={<TrendingItems />} />
+          <Route path="/premier/:type" element={<TopRatedItems />} />
+          <Route path="/coming/:type" element={<UpComingItems />} />
+          <Route path="/callback" element={<Callback />} />
+          <Route path="/favorites/:type" element={<FavoriteItems />} />
+        </Routes>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

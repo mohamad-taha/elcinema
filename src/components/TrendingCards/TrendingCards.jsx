@@ -58,7 +58,7 @@ const TrendingCards = () => {
               accept: "application/json",
               Authorization: AUTH_TOKEN,
             },
-          }
+          },
         );
 
         if (!response.ok) {

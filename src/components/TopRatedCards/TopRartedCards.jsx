@@ -23,6 +23,8 @@ const TopRatedCards = () => {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
+  const activePages = Math.min(totalPages, 500);
+
   const filteredData = items.filter((item) => {
     const genreMatch =
       filter.genre === "" || item.genre_ids.includes(Number(filter.genre));
@@ -57,7 +59,7 @@ const TopRatedCards = () => {
               accept: "application/json",
               Authorization: AUTH_TOKEN,
             },
-          }
+          },
         );
 
         if (!response.ok) {
@@ -103,7 +105,7 @@ const TopRatedCards = () => {
         err={err}
         type={mediaType}
       />
-      <Pagination pages={totalPages} setItemsPagination={setItemsPagination} />
+      <Pagination pages={activePages} setItemsPagination={setItemsPagination} />
     </div>
   );
 };

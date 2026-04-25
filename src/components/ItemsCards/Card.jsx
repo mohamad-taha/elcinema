@@ -17,6 +17,8 @@ const Card = ({ filter, setFilter }) => {
 
   const mediaType = useMemo(() => (type === "tv" ? "tv" : "movie"), [type]);
 
+  const activePages=Math.min(totalPages, 500)
+
   const baseUrl = useMemo(() => {
     if (!filter) return "";
 
@@ -99,7 +101,7 @@ const Card = ({ filter, setFilter }) => {
         type={mediaType}
       />
       <PaginationCards
-        pages={totalPages}
+        pages={activePages}
         setItemsPagination={setItemsPagination}
       />
     </div>

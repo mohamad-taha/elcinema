@@ -10,7 +10,6 @@ const FavoritesItems = () => {
   useEffect(() => {
     if (!localStorage.getItem("user")) {
       navigate("/");
-      alert("you need to sign in first");
     }
   }, []);
 

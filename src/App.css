@@ -30,6 +30,16 @@ body {
   background-color: #1e1e21;
 }
 
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
 .container {
   margin-right: 50px;
   margin-left: 50px;

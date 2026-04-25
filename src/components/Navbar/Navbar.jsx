@@ -5,8 +5,8 @@ import Links from "../NavLinks/Links";
 import { TbListTree } from "react-icons/tb";
 import { Context } from "../../context/Context";
 import Btn from "../LanguageBtn/Btn";
-import "./Navbar.css";
 import AccountBtn from "../AccountBtn/AccountBtn";
+import "./Navbar.css";
 
 const Navbar = () => {
   const { setShowSidebar } = useContext(Context);
