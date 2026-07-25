@@ -4,7 +4,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 
-const PaginationCards = ({ pages, setItemsPagination }) => {
+const PaginationCards = ({ pages, setItemsPagination, currentPage }) => {
   const handlePageChange = (_, value) => {
     setItemsPagination(value);
   };
@@ -19,6 +19,7 @@ const PaginationCards = ({ pages, setItemsPagination }) => {
       }}
     >
       <Pagination
+      page={currentPage}
         size="small"
         onChange={handlePageChange}
         count={pages}

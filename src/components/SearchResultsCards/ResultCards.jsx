@@ -9,47 +9,41 @@ const ResultCards = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { filter } = useContext(SearchContext);
-  const [itemsPagination, setItemsPagination] = useState(1);
+
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState([]);
   const [err, setErr] = useState({ stat: false, msg: "" });
 
-  const filteredData = results.filter((result) => {
-    const typeMatch = !filter.type || result.media_type === filter.type;
-
-    const genreMatch =
-      !filter.genre ||
-      (result.genre_ids && result.genre_ids.includes(filter.genre));
-
-    const voteCountMatch = result.vote_count > 5;
-
-    const voteAverageMatch = !filter.rate || result.vote_average < filter.rate;
-
-    const dateMatch =
-      !filter.date ||
-      (result.first_air_date &&
-        result.first_air_date < `${filter.date}-01-01`) ||
-      (result.release_date && result.release_date < `${filter.date}-01-01`);
-
-    return (
-      typeMatch && genreMatch && voteCountMatch && voteAverageMatch && dateMatch
-    );
-  });
-
+  // 1. قراءة الـ query ورقم الصفحة مباشرة من الرابط يمنع مشاكل الـ Navigation
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
+  const itemsPagination = parseInt(searchParams.get("page")) || 1; // استخراج رقم الصفحة من الرابط ديناميكياً
+
+  const activePages = Math.min(totalPages, 500); // حماية الـ Pagination كالعادة
+
+  const filteredData = results.filter((result) => {
+    const typeMatch = !filter.type || result.media_type === filter.type;
+    const genreMatch = !filter.genre || (result.genre_ids && result.genre_ids.includes(filter.genre));
+    const voteCountMatch = result.vote_count > 5;
+    const voteAverageMatch = !filter.rate || result.vote_average < filter.rate;
+    const dateMatch = !filter.date ||
+      (result.first_air_date && result.first_air_date < `${filter.date}-01-01`) ||
+      (result.release_date && result.release_date < `${filter.date}-01-01`);
+    return typeMatch && genreMatch && voteCountMatch && voteAverageMatch && dateMatch;
+  });
 
   useEffect(() => {
     if (!query) return;
+
     const options = {
       method: "GET",
       headers: {
         Accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Zjk0ZDY3ZDliNDRmZTg2MzQ4YzQxNDQ2MzYwNGJhZiIsIm5iZiI6MTczODk2NDQxOC44OCwic3ViIjoiNjdhNjdkYzJiOTM2MGMzZTMzZTA0Y2Y2Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.hd5hp2e1tnTMf1_-rWLb_dP7805RxMN1iegzGoFKf0c",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
       },
     };
+
     const fetchResults = async () => {
       setLoading(true);
       try {
@@ -58,9 +52,9 @@ const ResultCards = () => {
           options
         );
         const data = await response.json();
-        navigate(`/search?query=${query}&page=${itemsPagination}`);
-        setResults(data.results);
-        setTotalPages(data.total_pages);
+
+        setResults(data.results || []);
+        setTotalPages(data.total_pages || 1);
 
         if (!response.ok) {
           setErr({ stat: true, msg: response.statusText });
@@ -68,8 +62,7 @@ const ResultCards = () => {
       } catch (err) {
         setErr({
           stat: true,
-          msg:
-            err.message === "Failed to fetch" ? t("err_msg") : err.message,
+          msg: err.message === "Failed to fetch" ? t("err_msg") : err.message,
         });
       } finally {
         setLoading(false);
@@ -77,22 +70,21 @@ const ResultCards = () => {
     };
 
     fetchResults();
-  }, [
-    query,
-    itemsPagination,
-    filter.type,
-    filter.genre,
-    filter.rate,
-    filter.date,
-    i18n.language,
-  ]);
+  }, [query, itemsPagination, i18n.language, t]); // قمنا بتنظيف الـ dependencies غير المستخدمة في الـ API لحمايته من الطلبات المتكررة
+
+  // 2. دالة تحديث الرابط عند الضغط على أرقام الصفحات بالأسفل
+  const handlePageChange = (pageNumber) => {
+    navigate(`/search?query=${query}&page=${pageNumber}`);
+  };
 
   return (
     <div>
       <Cards items={filteredData} loading={loading} err={err} />
+      {/* 3. تمرير currentPage ليضيء الرقم الحالي بالأسفل بشكل سليم */}
       <PaginationCards
-        pages={totalPages}
-        setItemsPagination={setItemsPagination}
+        pages={activePages}
+        currentPage={itemsPagination}
+        setItemsPagination={handlePageChange}
       />
     </div>
   );
